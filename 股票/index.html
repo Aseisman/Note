@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票游戏</title>
+    <!-- 1.导入Vue核心库 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 2.导入Vuex插件库 -->
+    <script src="https://cdn.jsdelivr.net/npm/vuex/dist/vuex.js"></script>
+    <!-- 3.导入bootstrap-vue样式库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-vue/dist/bootstrap-vue.js"></script>
+    <!-- 提供完整ES2015+环境所需的环境 支持旧浏览器-->
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.js">
+    </script>
+    <!-- CSS -->
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-vue/dist/bootstrap-vue.css" />
+
+    <style>
+        #app {
+            padding-top: 20px;
+        }
+        
+        [v-cloak] {
+            display: none !important;
+        }
+        /* 测试完后可以删除 */
+        /* .col {
+            background-color: aquamarine;
+            border-style: solid
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <b-container class="bv-example-row">
+            <b-row>
+                <b-col>
+                    <b-card title="Stocks">
+                        <b-list-group>
+                            <b-list-group-item v-for="stock in stocks" :key="stock.name">
+                                <b-container>
+                                    <b-row>
+                                        <b-col>{{ stock.name }}</b-col>
+                                        <b-col class="text-right">{{ stock.price | money}}</b-col>
+                                    </b-row>
+                                </b-container>
+                            </b-list-group-item>
+                        </b-list-group>
+                    </b-card>
+                </b-col>
+                <b-col>
+                    <b-card title="Holdings">
+                        <b-list-group>
+                            <b-list-group-item v-for="stock in stocks" :key="stock.name">
+                                <b-container>
+                                    <b-row>
+                                        <b-col>{{ stock.name }}</b-col>
+                                        <b-col class="text-right">{{ stock.held}}</b-col>
+                                    </b-row>
+                                </b-container>
+                            </b-list-group-item>
+                        </b-list-group>
+                        <p class="card-text"> Total value of holdings: {{ holdingValue | money }} </p>
+                    </b-card>
+                </b-col>
+            </b-row>
+            <div style="height:20px"></div>
+            <b-row>
+                <b-col>
+                    效果图 列表组(List group) View代码
+                    <b-card title="Purchase and Sell Stocks">
+                        <b-card-text> Buy
+                            <b-form-input v-model.number="buy" type="number" style="width:100px;display:inline"></b-form-input> shares of
+                            <b-form-select style="width:120px;display:inline" v-model="buyStock">
+                                <option v-for="stock in stocks" :key="stock.name">{{ stock.name }} </option>
+                            </b-form-select>
+                            <b-button variant="success" @click="buyStocks" style="width:120px">Purchase</b-button> <span v-if="buyError">Not enough cash.</span> </b-card-text>
+                        <b-card-text> Sell
+                            <b-form-input v-model.number="sell" type="number" style="width:100px;display:inline"></b-form-input> shares of
+                            <b-form-select style="width:120px;display:inline" v-model="sellStock">
+                                <option v-for="stock in stocks" :key="stock.name">{{ stock.name }} </option>
+                            </b-form-select>
+                            <b-button variant="success" @click="sellStocks" style="width:120px">Sell</b- button> <span v-if="sellError">Not enough on hand.</span> </b-card-text>
+                        <b-card-text> You currently have {{ cash | money }} in cash. </b-card-text>
+                    </b-card>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
+</body>
+<script>
+    //Thanks for MDN - https://developer.mozilla.org/en- US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    } //返回min max之间的随机值
+    const store = new Vuex.Store({
+        state: {
+            //股票列表：股票名、价格、持有数 
+            stocks: [{
+                name: "IBM",
+                price: 100,
+                held: 0
+            }, {
+                name: "Amazon",
+                price: 90,
+                held: 0
+            }, {
+                name: "Microsoft",
+                price: 110,
+                held: 0
+            }, {
+                name: "Disney",
+                price: 120,
+                held: 0
+            }, ],
+            cash: 1000,
+            storeBuyError: false
+        },
+        mutations: {
+            changeStocksPrice(state) {
+                state.stocks.forEach(stock => {
+                    stock.price += getRandomArbitrary(-20, 20);
+                    if (stock.price < 0) stock.price = 0;
+                });
+            },
+            buyStocks(state, order) {
+                console.log('order is ' + JSON.stringify(order)); //first, find the stock 
+                let stock = state.stocks.findIndex(elm => {
+                    return elm.name === order.stock;
+                });
+                if (stock >= 0) {
+                    let purchasePrice = (state.stocks[stock].price * order.amount).toFixed(2);
+                    if (state.cash >= purchasePrice) {
+                        state.stocks[stock].held += order.amount;
+                        state.cash -= purchasePrice;
+                        state.storeBuyError = false;
+                    } else {
+                        state.storeBuyError = true;
+                    }
+                }
+            },
+            sellStock(state, order) {
+                console.log('order is ' + JSON.stringify(order)); //first, find the stock 
+                let stock = state.stocks.findIndex(elm => {
+                    return elm.name === order.stock;
+                });
+                if (stock >= 0) {
+                    if (state.stocks[stock].held >= order.amount) {
+                        let sellPrice = (state.stocks[stock].price * order.amount).toFixed(2);
+                        state.stocks[stock].held -= order.amount;
+                        state.cash += Number(sellPrice);
+                        state.storeSellError = false;
+                    } else {
+                        state.storeSellError = true;
+                    }
+                }
+            }
+        },
+        getters: {
+            holdingValue(state) { //reduce == += 
+                return state.stocks.reduce(function(total, elm) {
+                    return total + (elm.price * elm.held);
+                }, 0);
+            }
+        },
+    });
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                buy: 0,
+                buyStock: null,
+                buyError: false,
+                sell: 0,
+                sellStock: null,
+                sellError: false
+            }
+        },
+        store, //注册
+        mounted: function() {
+            setInterval(() => {
+                store.commit('changeStocksPrice');
+            }, 2000)
+        },
+        filters: {
+            money(value) {
+                let numb = Number(value).toFixed(2); //保留小数点2位 
+                return '$' + numb;
+            }
+        },
+        computed: {
+            // stocks() {
+            //     return this.$store.state.stocks;
+            // }
+
+            ...Vuex.mapState([
+                'stocks', //this.store=this.$store.state.stocks
+                'cash',
+            ]),
+            ...Vuex.mapGetters([
+                'holdingValue',
+            ])
+        },
+        methods: {
+            buyStocks() {
+                if (this.buy < 0) this.buy = 0;
+                if (this.buy === 0) return;
+                console.log('going to buy ' + this.buy + ' of ' + this.buyStock);
+                store.commit('buyStocks', {
+                    amount: this.buy,
+                    stock: this.buyStock
+                });
+                this.buy = 0;
+                this.buyStock = null;
+                this.buyError = this.$store.state.storeBuyError;
+            },
+            sellStocks() {
+                if (this.sell < 0) this.sell = 0;
+                if (this.sell === 0) return;
+                console.log('going to sell ' + this.sell + ' of ' + this.sellStock);
+                store.commit('sellStock', {
+                    amount: this.sell,
+                    stock: this.sellStock
+                });
+                this.sell = 0;
+                this.sellStock = null;
+                this.sellError = this.$store.state.storeSellError;
+            }
+        }
+    });
+</script>
+
+</html>

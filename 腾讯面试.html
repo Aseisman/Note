@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 防抖 -->
+    <!-- <script>
+        function debounce(func, wait) {
+            var timeout = null;
+            return function() {
+                let context = this;
+                let args = arguments;
+                if (timeout) clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(context, args)
+                }, wait);
+
+            }
+        }
+
+        function a() {
+            console.log("1111111111111")
+        }
+        let b = debounce(a, 1000)
+        b()
+        b()
+    </script> -->
+    <!-- 节流 -->
+    <!-- <script>
+        function throttle(func, wait) {
+            let timeout = null;
+            return function() {
+                let context = this
+                let args = arguments
+                if (!timeout) {
+                    timeout = setTimeout(() => {
+                        timeout = null
+                        func.apply(context, args)
+                    }, wait)
+                }
+            }
+        }
+        let b = throttle(() => {
+            console.log("sdsds")
+        }, 2000);
+        b();
+        b();
+    </script> -->
+    <!-- leetcode394，字符串解码， s = "3[a]2[bc]"输出 "aaabcbc" -->
+    <!-- <script>
+        var decodeString = function(s) {
+            let right = s.indexOf(']');
+            if (right == -1) return s;
+            let left = right
+            while (left > 0 && s[left] !== '[') {
+                left--
+                let cur = ''
+                for (let j = 0; j < k; j++) {
+                    cur += str
+                }
+                let newStr = pre + cur + last;
+                return decodeString(newStr)
+            };
+        }
+    </script> -->
+    <!-- leetcode 02.04 分割链表  给个链表和数字x，让比x小的节点到链表前端，比x大的就不移动，保持顺序不变 例如1->2->4->3->2->5 输出1->2->2->4->3->5-->
+    <!-- <script>
+        var partition = function(head, x) {
+            let pre = head;
+            let cur = head;
+            let swap = (cur, pre) => {
+                let temp = cur.val;
+                cur.val = pre.val;
+                pre.val = temp;
+            }
+            while (cur != null) {
+                if (cur.val < x) {
+                    swap(cur, pre);
+                    pre = pre.next;
+                }
+                cur = cur.next;
+            }
+            return head;
+        };
+    </script> -->
+    <!-- <script>
+        const ThemeContext = React.createContext('light');
+        <ThemeContext.Provider value="dark">
+        <Toolbar />
+      </ThemeContext.Provider>
+      class ThemedButton extends React.Component {
+  // 指定 contextType 读取当前的 theme context。
+  // React 会往上找到最近的 theme Provider，然后使用它的值。
+  // 在这个例子中，当前的 theme 值为 “dark”。
+  static contextType = ThemeContext;
+  render() {
+    return <Button theme={this.context} />;
+  }
+}
+    </script> -->
+    <!-- <script>
+        let header={
+            Access-Control-Allow-Credential: true,
+            Access-Control-Allow-Headers: origin, content - type, accept, x - request - with,
+            Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS,
+            Access-Control-Allow-Origin: http: localhost: 8000
+        }
+    </script> -->
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>向子组件传递数据2-通过Vue实例传递数据</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- CSS -->
+</head>
+
+<body>
+    <!-- 例子：通过Vue实例的data给子组件传值 -->
+    <div id="blog-post-demo">
+       <!--1. 组件标签 声明 向组件传递的数据 对应的 参数title -->
+        <blog-post v-for="post in posts" :key="post.id"    v-bind:id="post.id" v-bind:title="post.title" ></blog-post>
+        <blog-post v-for="post in posts2" :key="post.id"  :id="post.id"        :title="post.title" ></blog-post>
+    </div>
+
+    <script>
+        //1.声明组件
+        Vue.component("blog-post",{
+            //2. 接收向子组件传递数据
+            props:['title','id'],
+            //3. 使用外部的数据
+            template:'<h3>id:{{id}},title:{{title}}</h3>'
+        });
+       
+        var app = new Vue({
+            el: '#blog-post-demo',
+            data:{
+                posts:[
+                    {id:1, title: "My journey with Vue"},
+                    {id:2, title: "Blogging with Vue"},
+                    {id:3, title: "Why Vue is so fun"},
+                ],
+                posts2:[
+                    {id:4, title: "My journey with Vue"},
+                    {id:5, title: "Blogging with Vue"},
+                    {id:6, title: "Why Vue is so fun"},
+                ]
+            }
+         })
+    </script>
+
+</body>
+
+</html>

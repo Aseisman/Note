@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function mergeHook(parentVal, childVal) {
+            if (childVal) {
+                if (parentVal) {
+                    return parentVal.concat(childVal)
+                } else {
+                    return [childVal]
+                }
+            } else {
+                return parentVal;
+            }
+            //return处：将钩子函数封装成一个数组
+        }
+
+        function mergeOptions(parent, child) {
+            let opts = [];
+            for (let key in child) {
+                //合并钩子方法，将多个beforecreate合并在一个数组中
+                opts[key] = mergeHook(parent[key], child[key]);
+            }
+            return opts;
+        }
+
+        function Vue(options) { //合并操作
+            this.options = mergeOptions(this.constructor.options, options);
+            callHook(this, 'beforeCreate');
+        }
+
+        function callHook(vm, hookName) {
+            //将数组中的方法依次执行。
+            vm.options[hookName].forEach(element => {
+                element()
+            });
+        }
+        Vue.options = {
+            // beforeCreate() {
+            //     console.log('before Create 2');
+            // }
+        }; //默认的全局
+        Vue.mixin = function(obj) {
+            this.options = mergeOptions(this.options, obj);
+            console.log(this.options)
+        }
+        Vue.mixin({
+            beforeCreate() {
+                console.log("before create 3");
+            }
+        })
+        new Vue({
+            beforeCreate() {
+                console.log('before Create 1');
+            }
+        })
+    </script>
+</body>
+
+</html>

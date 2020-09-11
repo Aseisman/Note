@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function render() {
+        //     console.log("渲染")
+        // }
+        // render();
+        // render();
+        // render();
+        // console.log("更改状态")
+        // console.log("更改状态")
+        // console.log("更改状态")
+        //这个场景就是，我们会渲染3次，更改状态3次，然后怎么样才能让更改状态后执行render呢，我们可以在render方法上加定时器，
+        //但是对于这里的3个render方法来说，添加3个定时器，会触发3次函数，而且也损耗性能，
+        //所以我们想的是开一个定时器，然后把3个定时器依次执行。
+        //使用nextTick(render),
+    </script>
+    <script>
+        // let cbs = [];
+
+        // function flushCallBacks() {
+        //     cbs.forEach(fn => fn());
+        // }
+
+        // function nextTick(fn) {
+        //     cbs.push(fn);
+        //     Promise.resolve().then(flushCallBacks)
+        // }
+
+        // function render() {
+        //     console.log("渲染")
+        // }
+        // nextTick(render);
+        // nextTick(render);
+        // nextTick(render);
+        // console.log("更改状态")
+        // console.log("更改状态")
+        // console.log("更改状态")
+        //这样子会渲染9次，为什么呢，因为nextTick会把render丢进去数组里面，然后数组就会有3个render
+        //然后调用了3个flushCallBacks,
+        //那么我们要怎么做才能让flushCallBacks只执行一次呢
+        //跟限流一样，我们做个变量pending.
+    </script>
+    <script>
+        let cbs = [];
+        let pending = false;
+
+        function flushCallBacks() {
+            cbs.forEach(fn => fn());
+            pending = false;
+        }
+
+        function nextTick(fn) {
+            cbs.push(fn);
+            if (!pending) {
+                pending = true;
+                Promise.resolve().then(flushCallBacks)
+            }
+        }
+
+        function render() {
+            console.log("渲染")
+        }
+        nextTick(render);
+        nextTick(render);
+        nextTick(render);
+        console.log("更改状态")
+        console.log("更改状态")
+        console.log("更改状态")
+    </script>
+</body>
+
+</html>

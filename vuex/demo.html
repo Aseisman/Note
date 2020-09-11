@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--1. 安装Vuex的依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/vuex/dist/vuex.js"></script>
+</head>
+
+<body>
+    <div id='app' class="app">
+        {{count}}
+        <button @click="add">aaaa</button>
+    </div>
+    <script>
+        const store = new Vuex.Store({
+            //状态：共享数据
+            state: {
+                count: 0,
+            },
+            //修改状态的事件
+            mutations: {
+                plus(state) {
+                    state.count++
+                }
+            },
+            //异步处理机制，控制我们mutation的执行顺序
+            action: {},
+            //用域组件获取计算后的状态数据，先整理后返回到vue里面
+            getter: {},
+        })
+        var vm = new Vue({
+            el: '#app',
+            store, //注册
+            data: {
+                message: 'helloworld'
+            },
+            methods: {
+                add() {
+                    this.$store.commit('plus');
+                    console.log(this.$store.state.count)
+                }
+            },
+            computed: {
+                count() {
+                    return this.$store.state.count
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

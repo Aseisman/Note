@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue组件重用2-组件共享作用域</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="components-demo">
+        <!-- 2.在Vue视图 重用组件，视图嵌套建议不要超过三层 -->
+       <button-counter></button-counter>
+       <button-counter></button-counter>
+       <button-counter></button-counter>
+       <button-counter></button-counter>
+    </div>
+
+    <script>
+        //4.声明共享的对象(内存中只有1个实例)
+        var share = {
+            count: 0
+        }
+        //1.声明组件
+        Vue.component("button-counter",{
+            // 2.每个实例（独立的作用域）可以维护一份被返回对象的独立的拷贝：
+            data:function(){
+                return share;//返回共享的对象的 引用地址
+            },
+            template:'<button @click="count++">You clicked me {{ count }}!!</button>'
+        });
+         //3.初始化Vue实例，自动渲染实例视图下的自定义组件
+        var app = new Vue({el: '#components-demo'})
+    </script>
+
+</body>
+
+</html>

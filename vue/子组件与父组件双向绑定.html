@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在组件上使用v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="custom-input-demo">
+        <!-- 2.子组件使用v-model 与Vue实例 双向绑定数据 -->
+       <custom-input v-model="searchText"></custom-input>
+    </div>
+
+    <script>
+        //1.声明组件：:value="value" 从data获取searchText的值     @input="$emit('input',$event.target.value) 把input元素的值覆盖data中searchText
+        Vue.component("custom-input",{
+            //1.接收父组件的value值
+            props:['value'],
+             //2.在模板中只可以使用以下方式实现双向绑定：
+            template:`
+            <input 
+                :value="value"
+                @input="$emit('input',$event.target.value)">
+             </input>`
+        });
+       
+        var app = new Vue({
+            el: '#custom-input-demo',
+            data:{
+                searchText:""
+            }
+        })
+    </script>
+
+</body>
+
+</html>

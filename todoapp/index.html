@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoApp</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.4em;
+            background: #f5f5f5;
+            color: #4d4d4d;
+            min-width: 230px;
+            max-width: 550px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-weight: 300;
+        }
+        
+         :focus {
+            outline: 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .todoapp {
+            background: #fff;
+            margin: 130px 0 40px 0;
+            position: relative;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .todoapp input::-webkit-input-placeholder {
+            font-style: italic;
+            font-weight: 300;
+            color: #e6e6e6;
+        }
+        
+        .todoapp input::-moz-placeholder {
+            font-style: italic;
+            font-weight: 300;
+            color: #e6e6e6;
+        }
+        
+        .todoapp input::input-placeholder {
+            font-style: italic;
+            font-weight: 300;
+            color: #e6e6e6;
+        }
+        
+        [v-cloak] {
+            display: none;
+            /* 隐藏 */
+        }
+        
+        .new-todo,
+        .edit {
+            position: relative;
+            margin: 0;
+            width: 100%;
+            font-size: 24px;
+            font-family: inherit;
+            font-weight: inherit;
+            line-height: 1.4em;
+            border: 0;
+            color: inherit;
+            padding: 6px;
+            border: 1px solid #999;
+            box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .new-todo {
+            padding: 16px 16px 16px 60px;
+            border: none;
+            background: rgba(0, 0, 0, 0.003);
+            box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+        }
+        
+        .toggle-all {
+            width: 1px;
+            height: 1px;
+            border: none;
+            /* Mobile Safari */
+            opacity: 0;
+            position: absolute;
+            right: 100%;
+            bottom: 100%;
+        }
+        
+        .toggle-all+label {
+            width: 60px;
+            height: 34px;
+            font-size: 0;
+            position: absolute;
+            top: 218px;
+            left: -13px;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+        
+        .toggle-all+label:before {
+            content: '❯';
+            font-size: 22px;
+            color: #e6e6e6;
+            padding: 10px 27px 10px 27px;
+        }
+        
+        .toggle-all:checked+label:before {
+            color: #737373;
+        }
+        /*删除todo事项样式*/
+        
+        button {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            font-size: 100%;
+            vertical-align: baseline;
+            font-family: inherit;
+            font-weight: inherit;
+            color: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .todo-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .todo-list li {
+            position: relative;
+            font-size: 24px;
+            border-bottom: 1px solid #ededed;
+        }
+        
+        .todo-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .todo-list li label {
+            word-break: break-all;
+            padding: 15px 15px 15px 60px;
+            display: block;
+            line-height: 1.2;
+            transition: color 0.4s;
+        }
+        
+        .todo-list li.completed label {
+            color: #d9d9d9;
+            text-decoration: line-through;
+        }
+        
+        .todo-list li .toggle {
+            text-align: center;
+            width: 40px;
+            /* auto, since non-WebKit browsers doesn't support input styling */
+            height: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            border: none;
+            /* Mobile Safari */
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .todo-list li .toggle {
+            opacity: 0;
+        }
+        
+        .todo-list li .toggle+label {
+            /*
+		Firefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433
+		IE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/
+	*/
+            background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
+            background-repeat: no-repeat;
+            background-position: center left;
+        }
+        
+        .todo-list li .toggle:checked+label {
+            background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
+        }
+        
+        .todo-list li .destroy {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 10px;
+            bottom: 0;
+            width: 40px;
+            height: 40px;
+            margin: auto 0;
+            font-size: 30px;
+            color: #cc9a9a;
+            margin-bottom: 11px;
+            transition: color 0.2s ease-out;
+        }
+        
+        .todo-list li .destroy:hover {
+            color: #af5b5e;
+        }
+        
+        .todo-list li .destroy:after {
+            content: '×';
+        }
+        
+        .todo-list li:hover .destroy {
+            display: block;
+        }
+        
+        .todo-list li .edit {
+            display: none;
+        }
+        
+        .todo-list li.editing:last-child {
+            margin-bottom: -1px;
+        }
+        
+        .todo-list li.editing {
+            border-bottom: none;
+            padding: 0;
+        }
+        
+        .todo-list li.editing .edit {
+            display: block;
+            width: calc(100% - 43px);
+            padding: 12px 16px;
+            margin: 0 0 0 43px;
+        }
+        
+        .todo-list li.editing .view {
+            display: none;
+        }
+        
+        .filters {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            right: 0;
+            left: 0;
+        }
+        
+        .filters li {
+            display: inline;
+        }
+        
+        .filters li a {
+            color: inherit;
+            margin: 3px;
+            padding: 3px 7px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-radius: 3px;
+        }
+        
+        .filters li a:hover {
+            border-color: rgba(175, 47, 47, 0.1);
+        }
+        
+        .filters li a.selected {
+            border-color: rgba(175, 47, 47, 0.2);
+        }
+        
+        .clear-completed,
+        html .clear-completed:active {
+            float: right;
+            position: relative;
+            line-height: 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .clear-completed:hover {
+            text-decoration: underline;
+        }
+        
+        .todo-count {
+            float: left;
+            text-align: left;
+        }
+        
+        .todo-count strong {
+            font-weight: 300;
+        }
+        
+        .footer {
+            color: #777;
+            padding: 10px 15px;
+            height: 20px;
+            text-align: center;
+            border-top: 1px solid #e6e6e6;
+        }
+        
+        .footer:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 50px;
+            overflow: hidden;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app' class="todoapp">
+        <header class="header">
+            <h1 style="text-align: center;"><img src="./img/baidu.png" alt="baidu" style="width: 370px;height: 185px;"></h1>
+            <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
+        </header>
+        <section class="main" v-show="todos.length" v-cloak>
+            <!--切换全部todos的completed状态 -->
+            <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone" />
+            <label for="toggle-all"></label>
+
+            <ul class="todo-list">
+                <!--todo : {id: 0, title: "修改", completed: false} -->
+                <li v-for="todo in filteredTodos" :key="todo.id" :class="{completed: todo.completed, editing: todo == editedTodo}">
+                    <div class="view">
+                        <!--切换一个todo的completed状态 -->
+                        <input class="toggle" type="checkbox" v-model="todo.completed" />
+                        <label @dblclick="editTodo(todo)">{{todo.title}}</label>
+                        <!--destroy-->
+                        <button class="destroy" @click="removeTodo(todo)"></button>
+                    </div>
+                    <!--
+                                    v-todo-focus:自定义事件：获取焦点
+                                    @blur：失去焦点则取消修改
+                                    @keyup.esc：Esc取消修改
+                                    @keyup.enter：Enter完成修改
+                                    
+                                -->
+                    <input class="edit" type="text" v-todo-focus="todo == editedTodo" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" />
+
+                </li>
+            </ul>
+        </section>
+        <footer class="footer" v-show="todos.length" v-cloak>
+            <span class="todo-count">
+                <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
+            </span>
+            <ul class="filters">
+                <li>
+                    <a href="#/all" :class="{ selected: visibility == 'all' }">All</a>
+                </li>
+                <li>
+                    <a href="#/active" :class="{ selected: visibility == 'active' }">Active</a>
+                </li>
+                <li>
+                    <a href="#/completed" :class="{ selected: visibility == 'completed' }">Completed</a>
+                </li>
+            </ul>
+            <!-- 只有已处理数据才会显示该按钮 -->
+            <button class="clear-completed" v-show="todos.length > remaining" @click="removeCompleted">
+                        Clear completed
+                    </button>
+        </footer>
+    </div>
+</body>
+<script>
+    // 本地存储持久性
+    var STORAGE_KEY = "todos-vuejs-2.0";
+    var todoStorage = {
+        //初始化并返回todos列表 和 初始化唯一主键uid
+        fetch: function() {
+            var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            todos.forEach(function(todo, index) {
+                todo.id = index;
+            });
+            todoStorage.uid = todos.length; //唯一id,默认0
+            return todos;
+        },
+        //保存todos列表到localStorage (更新覆盖)
+        save: function(todos) {
+            //转换todos数组为json格式数据并存储到Item中
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        }
+    };
+    // 可见度-过滤器
+    var filters = {
+        all: function(todos) {
+            return todos; //返回所有
+        },
+        active: function(todos) {
+            return todos.filter(function(todo) {
+                return !todo.completed; //completed为false时返回
+            });
+        },
+        completed: function(todos) {
+            return todos.filter(function(todo) {
+                return todo.completed; //completed为true时返回
+            });
+        }
+    };
+    var vm = new Vue({
+            data: {
+                todos: todoStorage.fetch(), //存储todo事项的数组
+                newTodo: "",
+                editedTodo: null,
+                visibility: "all"
+            },
+            methods: {
+                addTodo: function() {
+                    //从newTodo的input 双向绑定值 v-model="newTodo"
+                    var value = this.newTodo && this.newTodo.trim();
+                    if (!value) { //"" 空字符串 false 取反 true
+                        return;
+                    }
+                    this.todos.push({
+                        id: todoStorage.uid++,
+                        title: value,
+                        completed: false,
+                    });
+                    this.newTodo = "";
+                },
+                editTodo: function(todo) {
+                    //设置一个缓存字段保存title，取消修改时可以还原默认值
+                    this.beforeEditCache = todo.title;
+                    //设置修改对象
+                    this.editedTodo = todo;
+                },
+                //取消修改todo
+                cancelEdit: function(todo) {
+                    //取消修改时可以还原默认值
+                    todo.title = this.beforeEditCache;
+                    //取消修改时设置修改对象为null
+                    this.editedTodo = null;
+                },
+                //完成修改todo
+                doneEdit: function(todo) {
+                    //editedTodo为null时return
+                    if (!this.editedTodo) {
+                        return;
+                    }
+                    this.editedTodo = null;
+                    //没有有效内容则移除- 非空格字符串
+                    todo.title = todo.title.trim();
+                    //title为""时remove Todo
+                    if (!todo.title) {
+                        this.removeTodo(todo);
+                    }
+                },
+                removeTodo: function(todo) {
+                    this.todos.splice(this.todos.indexOf(todo), 1);
+                },
+                removeCompleted: function() {
+                    this.todos = filters.active(this.todos); // 把已处理的过滤
+                }
+            },
+            //深度监听todos数组发送改变持久化到localStorage
+            watch: {
+                todos: {
+                    handler: function(todos) {
+                        todoStorage.save(todos);
+                    },
+                    //immediate:true初始化的时候,立即触发handler方法
+                    deep: true
+                }
+            },
+            // 计算属性：allDone调用时 把 todos中所有的todo.completed 取反。
+            // http://vuejs.org/guide/computed.html
+            computed: {
+                remaining: function() {
+                    return filters.active(this.todos).length;
+                },
+                allDone: {
+                    get: function() {
+                        console.log("this.remaining === 0 : " + (this.remaining === 0))
+                        return this.remaining === 0;
+                    },
+                    set: function(value) {
+                        this.todos.forEach(function(todo) {
+                            todo.completed = value;
+                        });
+                    }
+                },
+                // //visibility或者todos发生改变就重新计算 过滤数据返回过滤后的filteredTodos
+                filteredTodos: function() {
+                    return filters[this.visibility](this.todos);
+                }
+            },
+            // 自定义指令：修改输入框获取焦点。
+            // http://vuejs.org/guide/custom-directive.html
+            directives: {
+                "todo-focus": function(el, binding) {
+                    if (binding.value) {
+                        el.focus();
+                    }
+                }
+            },
+            //过滤器
+            filters: {
+                pluralize: function(n) {
+                    return n <= 1 ? "item" : "items";
+                }
+            }
+        })
+        // handle routing
+    function onHashChange() {
+        //获取浏览器地址栏中 visibility可见度 的值
+        var visibility = window.location.hash.replace(/#\/?/, ""); //all |  active | completed
+        if (filters[visibility]) {
+            vm.visibility = visibility;
+        } else {
+            window.location.hash = "";
+            vm.visibility = "all";
+        }
+    }
+
+    window.addEventListener("hashchange", onHashChange);
+    onHashChange();
+    vm.$mount("#app")
+</script>
+
+</html>

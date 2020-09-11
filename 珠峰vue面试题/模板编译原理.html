@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="node_modules/vue-template-compiler/browser.js"></script>
+    <script>
+        //模板引擎的原理：with+new Function实现生成render方法
+        //包提供的变量
+        //1、利用包提供的方法将template转换成render函数（ast树）
+        let {
+            ast,
+            render
+        } = VueTemplateCompiler.compile(`<div>zf</div>`)
+
+        console.log(ast)
+        console.log(render)
+            //2、将render函数封装成一个方法Function,
+        console.log(new Function(render).call(obj))
+            //function anonymous(
+            // ) {
+            // with(this){return _c('div',[_v("zf")])}
+            //}
+
+        // with(this){return _c('div',[_v("zf")])}
+        //with语法，创建一个节点div，然后[_v("zf")]是它的子节点，然后_v是vNode，虚拟节点，
+        //调用render方法运行with里面的东西后就生成一个虚拟节点。
+        //this表示Function中的obj,然后在obj里面找_c方法  _v方法
+    </script>
+</body>
+
+</html>

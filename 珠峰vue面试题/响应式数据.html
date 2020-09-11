@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        let state = {
+            count: 0
+        };
+        let active;
+        //1、定义一个响应式数据的方法：
+        function defineReactive(obj) {
+            for (let key in obj) {
+                let value = obj[key];
+                //如果有多个watcher的话，就可以用dep去统一我们的watchers然后统一发送请求
+                //每个变量都应该有个dep
+                let dep = []
+                    //defineProperty参数：对象，键，{get or set}
+                Object.defineProperty(obj, key, {
+                    get() {
+                        if (active) {
+                            dep.push(active);
+                        }
+                        return value;
+                    },
+                    set(newValue) {
+                        value = newValue;
+                        dep.forEach(watcher => watcher());
+                    }
+                })
+            }
+        }
+        defineReactive(state);
+        //2、数据发生变化了，通知视图
+        //发布-订阅者模式：每一个数据的监听器Observer进行数据劫持，如果数据发生变化，就询问一下订阅者watcher是否需要更新数据
+        //这里模拟多个订阅者watcher。
+        const watcher = (fn) => {
+            active = fn;
+            fn();
+            active = null;
+        }
+        watcher(() => {
+            app.innerHTML = state.count;
+        })
+        watcher(() => {
+            console.log(state.count);
+        })
+    </script>
+</body>
+
+</html>

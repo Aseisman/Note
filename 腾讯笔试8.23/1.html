@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .current {
+            background-color: aquamarine;
+        }
+        
+        .wrap {
+            background-color: bisque;
+        }
+    </style>
+</head>
+<table border="1">
+    <tbody>
+        <tr>
+            <td>January</td>
+            <td>$100</td>
+            <td>February</td>
+        </tr>
+        <tr>
+            <td>February</td>
+            <td>$80</td>
+            <td>February</td>
+        </tr>
+        <tr>
+            <td>January</td>
+            <td>$100</td>
+            <td>February</td>
+        </tr>
+        <tr>
+            <td>February</td>
+            <td>$80</td>
+            <td>February</td>
+        </tr>
+        <tr>
+            <td>January</td>
+            <td>$100</td>
+            <td>February</td>
+        </tr>
+        <tr>
+            <td>February</td>
+            <td>$80</td>
+            <td>February</td>
+        </tr>
+    </tbody>
+
+    <body>
+        <!-- 对于过长的字符串，转换成str...，输入限制的长度，中文占2个长度 -->
+        <!-- str="a你好bc" 限制长度3个 -->
+        <script>
+            let str = "a你好bcasdasdasdvvv你"
+                // str.charAtcode(i)返回str第i个的unicode
+                // String.fromCharCode(a)返回a字符对应的unicode
+            let xianzhi = function(str, index) {
+                    let num = 0;
+                    let item = "";
+                    for (let i in str) {
+                        if (num <= index) {
+                            if (str.charCodeAt(i) > 255) {
+                                num += 2;
+                            } else {
+                                num++;
+                            }
+                            item = item + str[i];
+                        } else {
+                            break;
+                        }
+                    }
+                    //先遍历，然后找到前几个。
+                    console.log(item)
+                        //判断之前的是不是多出来了，多出来就用...替换掉倒数的那个，
+                        //否则就直接返回，不用加...
+                    if (num > index) {
+                        while (num > index) {
+                            if (item.charCodeAt(item.length - 1) > 255) {
+                                num -= 2;
+                            } else {
+                                num--;
+                            }
+                            item = item.slice(0, item.length - 1);
+                        }
+                        return item + "...";
+                    } else {
+                        return item;
+                    }
+                }
+                // console.log(xianzhi(str, 5))
+        </script>
+        <!-- 3、对于一个列表，给选中的单元格的同一行同一列更改样式。 -->
+        <script>
+            let body = document.getElementsByTagName("tbody")[0];
+            body.addEventListener('click', function(e) {
+                //如果点击的是原先的表格，则直接返回。
+                if (e.target.getAttribute('class') == 'current') {
+                    return;
+                } else {
+                    //清空原来所有的样式
+                    let parentBorther = e.target.parentNode.parentNode.children;
+                    // console.log(parentBorther);
+                    for (let i, len = parentBorther.length; i < len; i++) {
+                        let leng = parentBorther[i].children.length;
+                        for (let j = 0; j < leng; j++) {
+                            parentBorther[i].children[j].setAttribute("class", "");
+                        }
+                    }
+                    //设置新表格的样式
+                    //同列
+                    let rowBrother = e.target.parentNode.children;
+                    for (let i = 0, len = parentBorther.legnth; i < len; i++) {
+                        rowBrother[i].setAttribute("class", 'wrap')
+                    }
+                    //同行
+                    for (let i = 0, len = parentBorther.length; i < len; i++) {
+                        let leng = parentBorther[i].children.legnth;
+                        for (let j = 0; j < leng; j++) {
+                            if (j == e.target.cellIndex) {
+                                console.log(parentBorther[i][j])
+                                parentBorther[i].children[j].setAttribute("class", 'wrap')
+                                break;
+                            }
+                        }
+                    }
+                    e.target.setAttribute("class", 'current')
+                }
+            })
+        </script>
+        <script>
+            function addIt(str) {
+                // write code here
+                let len = str.length;
+                if (len / 2 == 0) {
+                    //偶数
+                    // console.log('222')
+                } else {
+                    var newstr = str.slice((len - 1) / 2 - 1);
+                    var prestr = str.slice(0, (len - 1) / 2 - 1);
+                    console.log(newstr + " " + prestr);
+                    return prestr + "+" + newstr
+                }
+            }
+        </script>
+    </body>
+
+</html>
