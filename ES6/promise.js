@@ -1,6 +1,6 @@
 //执行10个请求，第11个请求需要用到前十个的运行结果
 
-
+// Promise对象可以理解为一次执行的异步操作，使用promise对象之后可以使用一种链式调用的方式来组织代码；让代码更加的直观。就是当执行完一次异步操作后，会有一次回调，不管成功还是失败，成功就对应成功的回调，失败就对应失败的回调。
 //https://blog.csdn.net/weixin_37719279/article/details/80950713
 //1、 Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的。
 // 2、promise 有 3 种状态：pending、fulfilled 或 rejected。状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变。
