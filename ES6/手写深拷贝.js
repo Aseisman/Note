@@ -76,6 +76,8 @@ function deepCopy(source, hash = new WeakMap()) {
     // 返回返回值
     return res;
 };
+
+
 //第二种方法。。未看。
 class DeepClone {
     constructor() {
