@@ -70,5 +70,46 @@ function insertionSort(arr) {
 }
 insertionSort([5, 2, 4, 6, 1, 7])
 
-//4.快速排序
-//
+//4.快速排序（分治法:  小小小标记大大大）
+//在将要排序的数据中选取一个数作为基准数，将这些数据中比所选取的基准数小的数放在所选取基准数的左边为左数组，将比所选取基准数大的数组放在右边为右数组。
+// 通过递归的方式重复循环1中的过程达到排序的目的。
+function quickSort(arr) {
+    if (arr.length < 2) return arr;
+    let left = [],
+        right = [];
+    let biaoji = arr[0];
+    arr.forEach(e => {
+        if (e < biaoji) left.push(e);
+        else if (e > biaoji) right.push(e);
+    })
+    return quickSort(left).concat(biaoji, quickSort(right));
+}
+console.log(quickSort([5, 2, 4, 6, 1, 7]));
+//改进
+// function quickSort(arr, i, j) {
+//     if (i < j) {
+//         let left = i,
+//             right = j;
+//         let biaoji = arr[left];
+//         while (i < j) {
+//             while (arr[j] >= biaoji && i < j) {
+//                 j--;
+//             }
+//             if (i < j) {
+//                 arr[i++] = arr[j];
+//             }
+//             while (arr[i] <= biaoji && i < j) {
+//                 i++;
+//             }
+//             if (i < j) {
+//                 arr[j--] = arr[i];
+//             }
+//         }
+//         arr[i] = biaoji;
+//         quickSort(arr, left, i - 1);
+//         quickSort(arr, i + 1, right);
+//         return arr;
+//     }
+// }
+// let a = [5, 2, 4, 6, 1, 7]
+// quickSort(a, 0, a.length - 1);
