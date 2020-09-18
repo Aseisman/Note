@@ -9,37 +9,16 @@
 
 <body>
     <script>
-        // function wait() {
-        //     return new Promise(resolve =>
-        //         setTimeout(resolve, 1000)
-        //     )
-        // }
-
-        // async function main() {
-        //     console.time();
-        //     const x = wait();
-        //     const y = wait();
-        //     const z = wait();
-        //     await x;
-        //     await y;
-        //     await z;
-        //     console.timeEnd();
-        // }
-        // // 请输出代码执行之后输出的时间
-        // main();
-        function resolveAfter2Seconds(x) {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(x);
-                }, 2000);
-            });
+        let oo = {
+            get san() {
+                console.log('get')
+            },
+            set san(v) {
+                console.log('set')
+            }
         }
-
-        async function f1() {
-            var x = await resolveAfter2Seconds(10);
-            console.log(x); // 10
-        }
-        f1();
+        oo.san = '100'
+        console.log(oo.san);
     </script>
 </body>
 
