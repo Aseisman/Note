@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            display: inline-block;
+            width: auto;
+            background: green;
+            color: white;
+            border-radius: 6px;
+            padding: 4px;
+            text-align: center;
+        }
+        
+        div::before {
+            content: "";
+            width: 0px;
+            top: 27px;
+            height: 0;
+            position: absolute;
+            left: 90px;
+            border-style: solid;
+            border-width: 10px 0 10px 9px;
+            border-color: transparent transparent transparent green;
+            z-index: -1;
+            transform: rotate(-47deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div>hello,world</div>
+
+</body>
+
+</html>
