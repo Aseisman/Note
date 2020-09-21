@@ -1,26 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <title>css</title>
 </head>
+<!-- <style>
+    .container {
+        overflow: hidden;
+    }
+    
+    .p1 {
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+        margin: 100px;
+    }
+</style>
 
 <body>
-    <script>
-        let oo = {
-            get san() {
-                console.log('get')
-            },
-            set san(v) {
-                console.log('set')
-            }
-        }
-        oo.san = '100'
-        console.log(oo.san);
-    </script>
+    <div class="container">
+        <div class="p1"></div>
+    </div>
+
+    <div class="container">
+        <div class="p1"></div>
+    </div>
+</body> -->
+<style>
+    .rongqi {
+        width: 100%;
+        display: flex;
+    }
+    
+    .item {
+        width: 20%;
+        margin: 10px;
+        background: green;
+        flex-grow: 1;
+    }
+    
+    .item1 {
+        order: 1;
+        flex-grow: 2;
+    }
+</style>
+
+<body>
+    <div class="rongqi">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item item1">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+    </div>
 </body>
 
 </html>
