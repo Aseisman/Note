@@ -54,7 +54,69 @@
         <div class="item item1">4</div>
         <div class="item">5</div>
         <div class="item">6</div>
+        <button id='button'>点击</button>
     </div>
 </body>
+<script>
+    function a(fn, wait) {
+        var timer = null;
+        if (timer) {
+            timer = null;
+        }
+        timer = setTimeout(fn, wait);
+    }
+
+    function test() {
+        console.log('aaa');
+    }
+    let button = document.getElementById('button')
+    button.addEventListener(
+            a(test, 800)
+        )
+        // 一根绳子从头烧到尾1一个小时，
+        // 不均匀
+        // 无限使用绳子
+        // 判断出来是15分钟
+
+    //一根绳子
+    function request() {
+        console.log("aaa");
+        return '111';
+    }
+    async function b() {
+        let temp = '';
+        for (let i = 0; i < 10; i++) {
+            let res = await a(temp, 'url');
+            if (res) //有数据是我们想要的
+            {
+                temp = res.data;
+            } else {
+                temp = 'sasadsad0';
+            }
+        }
+    }
+
+    function a(data, url) {
+        new Promise((resolve, reject) => {
+            request();
+        }).then(res => {
+            return res;
+        })
+    }
+
+    function quicksort(arr) {
+        var index = Math.floor(arr.length / 2);
+        var p = arr.splice(index, 1)[0];
+        var left = [],
+            right = [];
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] < p) left.push(arr[i]);
+            else right.push(arr[i]);
+        }
+        return quicksort(left).concat([p], quicksort(right));
+    }
+    let arr = [4, 5, 3, 6, 1, 7]
+    console.log(quicksort(arr));
+</script>
 
 </html>
