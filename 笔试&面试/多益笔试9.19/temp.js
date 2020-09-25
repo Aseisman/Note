@@ -1,3 +1,6 @@
+//给定两个数字，生成矩阵，顺时针从A-Z
+
+
 // let a = function(M, N) {
 //     var table = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 //     var res = [];
@@ -23,6 +26,8 @@ let res = ['A B C D E F G H I J K',
     ]
     // a(10, 11)
 
+
+//第二题 正则表达式，* + . 三个的替换，*可替换前面一个字符的0-多，+可替换前面一个字符的1-多， .可以替换一个数
 
 let pipei = function(ns, np) {
     if (ns === np) return true;
