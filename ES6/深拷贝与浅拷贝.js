@@ -2,7 +2,7 @@
 //对象进行深拷贝：Object.assign();JSON.stringify()与JSON.parse() 展开运算符a={a:0} b={...a}
 
 //数组
-//1、for循环
+// 1、for循环
 var arr1 = [1, 2, 3];
 var arr2 = [];
 for (var i = 0; i < arr1.length; i++) {
@@ -25,6 +25,12 @@ console.log(arr3)
 var obj = { a: 1 };
 var str = JSON.stringify(obj); //序列化对象
 var newobj = JSON.parse(str); //还原
+
+var obj = { a: new Date() }
+console.log(obj)
+var json = JSON.stringify(obj);
+var obj2 = JSON.parse(json);
+console.log(new Date(obj2.a))
 
 //2
 var a = { a: 0 }
