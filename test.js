@@ -58,41 +58,41 @@
 // i = li - 0;
 // console.log(aa);
 
-function solution(harmList, totalHarm) {
-    // write code here
-    // let item = -1;
-    // let huisu = function(total, it, res) {
-    //     if (total < 0) {
-    //         return;
-    //     }
-    //     if (total == 0) {
-    //         if (item == -1) item = res;
-    //         if (item > res) item = res;
-    //         return;
-    //     }
-    //     for (let i = it; i < harmList.length; i++) {
-    //         res++;
-    //         huisu(total - harmList[i], i, res);
-    //         res--;
-    //     }
-    // }
-    // huisu(totalHarm, 0, 0);
-    // console.log(item);
-    // return item;
+// function solution(harmList, totalHarm) {
+// write code here
+// let item = -1;
+// let huisu = function(total, it, res) {
+//     if (total < 0) {
+//         return;
+//     }
+//     if (total == 0) {
+//         if (item == -1) item = res;
+//         if (item > res) item = res;
+//         return;
+//     }
+//     for (let i = it; i < harmList.length; i++) {
+//         res++;
+//         huisu(total - harmList[i], i, res);
+//         res--;
+//     }
+// }
+// huisu(totalHarm, 0, 0);
+// console.log(item);
+// return item;
 
-    //动态规划
-    // const dp = [1]
-    // harmList.sort((a, b) => a - b);
-    // for (let i = 1; i <= totalHarm; i++) {
-    //     dp[i] = 0
-    //     for (let num of harmList) {
-    //         if (i < num) break;
-    //         dp[i] += dp[i - num];
-    //     }
-    // }
-    // return dp[totalHarm];
-}
-console.log(solution([2, 3], 1));
+//动态规划
+// const dp = [1]
+// harmList.sort((a, b) => a - b);
+// for (let i = 1; i <= totalHarm; i++) {
+//     dp[i] = 0
+//     for (let num of harmList) {
+//         if (i < num) break;
+//         dp[i] += dp[i - num];
+//     }
+// }
+// return dp[totalHarm];
+// }
+// console.log(solution([2, 3], 1));
 
 // function solution(data) {
 //     // write code here
@@ -167,3 +167,84 @@ console.log(solution([2, 3], 1));
 //     return res;
 // }
 // console.log(solution([4, 7, 9], [7, 4, 9]));
+
+// async function async1() {
+//     console.log('async1 start')
+//     await async2()
+//     console.log('async1 end')
+// }
+// async function async2() {
+//     console.log('async2')
+// }
+// console.log('script start')
+// setTimeout(function() {
+//     console.log('setTimeout')
+// }, 0)
+// async1();
+// new Promise(function(resolve) {
+//     console.log('promise1')
+//     resolve();
+// }).then(function() {
+//     console.log('promise2')
+// })
+// console.log('script end')
+
+
+// function myNew(fun) {
+//     //传入的fun是一个构造函数
+//     return function() {
+//         let obj = {
+//             __proto__: fun.prototype
+//         }
+//         fun.call(obj, ...arguments)
+//         return obj;
+//     }
+// }
+
+// function person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// let obj = myNew(person)('chen', 18)
+// console.log(obj)
+
+
+// let a = '1111';
+// let b = Object.assign({}, a);
+// console.log(b);
+
+//把a的东西丢给b，有重复就覆盖
+// let a = { n: 123, m: 345 };
+// let b = { x: 222 }
+// b = Object.assign(b, a);
+// console.log(a);
+// console.log(b);
+
+// let c = { n: { tt: '33' }, m: 222 }
+// let d = {}
+// d = Object.assign(d, c);
+// console.log(c);
+// c.n.tt = "33333"
+// console.log(c);
+// console.log(d);
+
+
+var cart = {
+    _wheels: 4,
+
+    get() {
+        console.log("get方法");
+        return this._wheels;
+    },
+
+    set(value) {
+        console.log("set方法");
+        if (value < this._wheels) {
+            throw new Error('数值太小了！');
+        }
+        this._wheels = value;
+    }
+}
+console.log(cart._wheels);
+cart._wheels = 10;
+console.log(cart._wheels);
