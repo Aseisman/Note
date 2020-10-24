@@ -228,23 +228,19 @@
 // console.log(c);
 // console.log(d);
 
-
-var cart = {
-    _wheels: 4,
-
-    get() {
-        console.log("get方法");
-        return this._wheels;
-    },
-
-    set(value) {
-        console.log("set方法");
-        if (value < this._wheels) {
-            throw new Error('数值太小了！');
-        }
-        this._wheels = value;
-    }
-}
-console.log(cart._wheels);
-cart._wheels = 10;
-console.log(cart._wheels);
+setTimeout(() => {
+    console.log('a');
+});
+Promise.resolve().then(() => {
+    console.log('b');
+}).then(() => {
+    return Promise.resolve('c').then(data => {
+        setTimeout(() => {
+            console.log('d');
+        });
+        console.log('f');
+        return data
+    });
+}).then(data => {
+    console.log(data);
+});
