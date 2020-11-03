@@ -245,30 +245,42 @@
 //     console.log(data);
 // });
 
-class A {
-    constructor(num = 1) {
-        console.log(`A${num}`);
-    }
-    fn1(num = 1) {
-        console.log(`A${num}`);
-    }
-    fn2(num = 3) {
-        console.log(`A${num}`);
-    }
-}
-class B extends A {
-    constructor(props) {
-        super(props);
-        this.f = props.fn2;
-    }
-    fn1(num = 4) {
-        console.log(`B${num}`);
-    };
+// class A {
+//     constructor(num = 1) {
+//         console.log(`A${num}`);
+//     }
+//     fn1(num = 1) {
+//         console.log(`A${num}`);
+//     }
+//     fn2(num = 3) {
+//         console.log(`A${num}`);
+//     }
+// }
+// class B extends A {
+//     constructor(props) {
+//         super(props);
+//         this.f = props.fn2;
+//     }
+//     fn1(num = 4) {
+//         console.log(`B${num}`);
+//     };
 
-    fn2(num = 5) {
-        this.f();
-    }
+//     fn2(num = 5) {
+//         this.f();
+//     }
+// }
+// const b = new B();
+// // b.fn1();
+// b.fn2();
+
+
+x="string";
+console.log(typeof(x)=="string");
+console.log(x.constructor===String);
+
+console.log(x instanceof String);
+// console.log(x instanceof );
+
+function a(s){
+    return typeof s == 'string';
 }
-const b = new B();
-// b.fn1();
-b.fn2();
