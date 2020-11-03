@@ -7,6 +7,7 @@
  *  + typeof检测的时候，是按照计算机存储的二进制的值来检测的
  *  + 所以 typeof null == Object 
  *  + typeof function == function
+ *  + typeof Object == function 
  */
 typeof NaN == 'number'
 typeof null == 'object'

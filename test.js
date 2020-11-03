@@ -228,19 +228,47 @@
 // console.log(c);
 // console.log(d);
 
-setTimeout(() => {
-    console.log('a');
-});
-Promise.resolve().then(() => {
-    console.log('b');
-}).then(() => {
-    return Promise.resolve('c').then(data => {
-        setTimeout(() => {
-            console.log('d');
-        });
-        console.log('f');
-        return data
-    });
-}).then(data => {
-    console.log(data);
-});
+// setTimeout(() => {
+//     console.log('a');
+// });
+// Promise.resolve().then(() => {
+//     console.log('b');
+// }).then(() => {
+//     return Promise.resolve('c').then(data => {
+//         setTimeout(() => {
+//             console.log('d');
+//         });
+//         console.log('f');
+//         return data
+//     });
+// }).then(data => {
+//     console.log(data);
+// });
+
+class A {
+    constructor(num = 1) {
+        console.log(`A${num}`);
+    }
+    fn1(num = 1) {
+        console.log(`A${num}`);
+    }
+    fn2(num = 3) {
+        console.log(`A${num}`);
+    }
+}
+class B extends A {
+    constructor(props) {
+        super(props);
+        this.f = props.fn2;
+    }
+    fn1(num = 4) {
+        console.log(`B${num}`);
+    };
+
+    fn2(num = 5) {
+        this.f();
+    }
+}
+const b = new B();
+// b.fn1();
+b.fn2();
