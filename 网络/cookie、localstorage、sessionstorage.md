@@ -15,3 +15,4 @@ cookie，localStorage，sessionStorage都是在客户端保存数据的，存储
   - localstorage和sessionStorage在5M
 - 安全：WebStorage不会随着HTTP header发送到服务器端，所以安全性相对于cookie来说比较高一些，不会担心截获。
 - 使用更方便：webStorage有api调用。
+

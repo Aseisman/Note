@@ -259,28 +259,64 @@
 // class B extends A {
 //     constructor(props) {
 //         super(props);
-//         this.f = props.fn2;
+//         // this.f = props.fn2;
 //     }
 //     fn1(num = 4) {
 //         console.log(`B${num}`);
 //     };
 
 //     fn2(num = 5) {
-//         this.f();
+//         console.log(this.__proto__.__proto__.fn2(5));
+//         // this.f();
+//         // console.log(this.f);
 //     }
 // }
 // const b = new B();
-// // b.fn1();
-// b.fn2();
+// // b.fn1();//答案是B4
+// b.fn2();//要求输出A5
+// console.log(b.__proto__);
 
+// x="string";
+// console.log(typeof(x)=="string");
+// console.log(x.constructor===String);
 
-x="string";
-console.log(typeof(x)=="string");
-console.log(x.constructor===String);
+// console.log(x instanceof String);//false
+// // instanceof 方法要求开发者明确地确认对象为某特定类型
+// new String("asdasd") instanceof String //true
+// // console.log(x instanceof );
 
-console.log(x instanceof String);
-// console.log(x instanceof );
+// function a(s){
+//     return typeof s == 'string';
+// }
 
-function a(s){
-    return typeof s == 'string';
+//手写深拷贝
+function isObject(o){
+    return Object.prototype.toString.call(o)==="[object Object]"||Object.prototype.toString.call(o)==="[object Array]"
 }
+function deepCopy(obj){
+    if(!isObject(obj))return obj;
+    let res=Array.isArray(obj)===true?[]:{};
+    for(let i in obj){
+        if(isObject(obj[i])){
+            //还是对象，那就深拷贝递归
+            console.log(i,obj[i],"进行递归");
+            res[i]=deepCopy(obj[i]);
+        }else{
+            res[i]=obj[i];
+        }
+    }
+    return res;
+}
+let obj={
+    a:11,
+    b:"222",
+    c:{
+        cc:333,
+        dd:{
+            ddd:'444'
+        }
+    },
+    d:[5,6,7]
+}
+let obj2=deepCopy(obj)
+console.log(obj2);
