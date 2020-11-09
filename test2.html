@@ -22,6 +22,14 @@
 
 <body>
     <div id="float-box" style="width:52px;height: 52px;position: absolute;margin: auto;left: 0;right: 0;top: 0;bottom: 0;"></div>
+    <p>牛客网，十大大苏打</p>
+    <p>sada</p>
 </body>
 
+<script>
+    let ps=document.getElementsByTagName('p');
+    console.log(ps);
+    ps[0].innerHTML=ps[0].textContent.replace('牛客网','<strong>牛客网</strong>');
+    
+</script>
 </html>
