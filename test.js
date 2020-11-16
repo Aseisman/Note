@@ -257,22 +257,21 @@
 // class B extends A {
 //     constructor(props) {
 //         super(props);
-//         // this.f = props.fn2;
 //     }
 //     fn1(num = 4) {
 //         console.log(`B${num}`);
 //     };
 
 //     fn2(num = 5) {
-//         console.log(this.__proto__.__proto__.fn2(5));
-//         // this.f();
-//         // console.log(this.f);
+//         this.__proto__.__proto__.fn2(5);
+//         // console.log(this.__proto__.__proto__.fn2(5));
+
 //     }
 // }
 // const b = new B();
 // // b.fn1();//答案是B4
 // b.fn2();//要求输出A5
-// console.log(b.__proto__);
+// console.log(b.__proto__);//B{},  b.__proto__.__proto__是A{}
 
 // x="string";
 // console.log(typeof(x)=="string");
@@ -319,35 +318,6 @@
 // let obj2=deepCopy(obj)
 // console.log(obj2);
 
-// function getUrlParam(sUrl, sKey) {
-//     let a=sUrl.split("?");
-//     let b=a[1].split("#")[0].split("&");
-//     for(let i=0;i<b.length;i++){
-//         let temp=[];
-//         temp=b[i].split("=");
-//         b[i]=temp;
-//     }
-//     let res=[]
-//     if(!sKey){
-//         let r={}
-//         for(let i=0;i<b.length;i++){
-//             if(!r[b[i][0]]){
-//                 r[b[i][0]]=[]
-//             }
-//             r[b[i][0]].push(b[i][1]);
-//         }
-//         return r;
-//     }
-//     for(let i=0;i<b.length;i++){
-//         if(b[i][0]==sKey){
-//             res.push(b[i][1]);
-//         }
-//     }
-//     if(res.length==1)return res[0];
-//     else return res;
-// }
-// console.log(getUrlParam("http://www.nowcoder.com?key=1&key=2&key=3&test=4#hehe"));
-
 // function namespace(oNamespace, sPackage) {
 //     let names=sPackage.split(".");
 //     let i;
@@ -372,29 +342,6 @@
 //     return [...new Set(this)]
 // }
 // console.log(a.uniq())
-
-// function formatDate(date,type){
-//     const obj={
-//         yy:(""+date.getFullYear()).slice(-2),
-//         yyyy:date.getFullYear(),
-//         M:date.getMonth()+1,
-//         MM:('0'+(date.getMonth()+1)).slice(-2),
-//         d:date.getDate(),
-//         dd:('0'+date.getDate()).slice(-2),
-//         H:date.getHours(),
-//         HH:('0'+date.getHours()).slice(-2),
-//         h:date.getHours()%12,
-//         hh:('0'+(date.getHours()%12)).slice(-2),
-//         m:date.getMinutes(),
-//         mm:('0'+date.getMinutes()).slice(-2),
-//         s:date.getSeconds(),
-//         ss:('0'+date.getSeconds()).slice(-2),
-//         w:['日','一','二','三','四','五','六'][date.getDay()]
-//     }
-//     return type.replace(/([a-z]+)/ig,(i)=>{
-//         return obj[i]
-//     })
-// }
 
 // function formatDate(date,formatStr) {
 //   const obj = {
@@ -421,72 +368,51 @@
 
 // console.log(formatDate(new Date(1409894060000), 'yy-MM-dd hh:m:s 星期w'));
 
-// function rgb2hex(sRGB) {
-//   let arr=sRGB.split("(")[1].split(")")[0].split(",")
-//   if(arr.length!=3)return sRGB;
-//   let res="#";
-//   let dem=[0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f']
-//   for(let a of arr){
-//     let temp=a.trim();
-//     if(temp>255||temp<0)return sRGB;
-//     let temp2="";
-//     while(temp>0){
-//       temp2=dem[parseInt(temp)%16]+temp2;
-//       temp=(temp/16)|0;
-//     }
-//     if(temp2.length==1)res+='0'+temp2;
-//     else if(temp2.length==0)res+='00';
-//     else res+=temp2;
-//   }
-//   return res
-// }
-// console.log(rgb2hex("rgb(15, 25,  155)"));
-
-// function cssStyle2DomStyle(sName) {
-//   if (sName[0] == "-") {
-//     sName = sName.slice(1);
-//   }
-//   let arr=sName.split("-");
-//   for(let i=1;i<arr.length;i++){
-//     arr[i]=arr[i].replace(arr[i][0],arr[i][0].toUpperCase());
-//   }
-//   return arr.join("");
-// }
-// console.log(cssStyle2DomStyle("-webkit-border-image"));
-
-// function count(str) {
-//   let o = {};
-//   for (let i = 0; i < str.length; i++) {
-//     if (str[i] != " ") {
-//       if (o[str[i]]) {
-//         o[str[i]] = o[str[i]] + 1;
-//       } else {
-//         o[str[i]] = 1;
-//       }
-//     }
-//   }
-//   return o;
-// }
-// console.log(count("hello world"));
-
-// function parse2Int(num) {
-//   num = num.replace(/\D+/g, "");
-//   console.log(num);
-//   return parseInt(num);
-// }
-// parse2Int("12px asda");
-
-// function partial(fn, str1, str2) {
-//   return function result(str3) {
-//     return fn.call(this, str1, str2, str3);
-//   };
-// }
-// var sayIt = function (greeting, name, punctuation) {
-//   return greeting + ", " + name + (punctuation || "!");
-// };
-// console.log(partial(sayIt, "Hello", "Ellie")("!!!"));
-
-
 // let a='110'.toString(10);//无效的
 // toString其实就是可以把10进制转为2进制-26进制的
 //parseInt就是把n进制转为10进制
+
+// function Foo() {
+//     getName = function() {
+//       console.log(1);
+//     };
+//     return this;
+//   }
+//   Foo.getName = function() {
+//     console.log(2);
+//   };
+//   Foo.prototype.getName = function() {
+//     console.log(3);
+//   };
+//   var getName = function() {
+//     console.log(4);
+//   };
+//   function getName() {
+//     console.log(5);
+//   }
+
+//   //请写出以下输出结果：
+//   Foo.getName(); // 2
+//   getName(); // 4
+//   Foo().getName(); // 1
+//   getName(); // 1
+//   new Foo.getName(); // 2
+//   new Foo().getName(); // 3
+//   new new Foo().getName(); // 3
+
+
+
+//0.2+0.3+0.23=0.73
+
+Per.prototype.name = "a";//Per的一个name
+function Per() {
+  //函数变量名会提升
+}
+var p = new Per();
+Per.prototype.name = "b";//也改了Per的一个name
+console.log(p.name);//答案是b，因为原型上的被改了。
+// p.__proto__.name="c";
+// console.log(p.name);
+p.name="c";
+var p2=new Per();
+console.log(p.name,p2.name);

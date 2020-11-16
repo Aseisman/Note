@@ -6,3 +6,9 @@ float:left/right;
 overflow:hidden;  
 
 ## BFC 跨级格式化上下文
+
+## 清除浮动
+1. 最后添加一个div clear:both;
+2. 父级添加overflow:hidden方法：触发bfc
+3. after伪元素清除浮动
+4. 使用before和after双伪元素清除浮动

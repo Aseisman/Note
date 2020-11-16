@@ -55,15 +55,15 @@ selectSort([5, 2, 4, 6, 1, 7])
 //继续循环。
 function insertionSort(arr) {
     let len = arr.length;
-    var preIndex, temp;
+    var preIndex, current;
     for (let i = 1; i < len; i++) {
         preIndex = i - 1;
-        temp = arr[i];
-        while (temp < arr[preIndex] && preIndex >= 0) {
+        current = arr[i];
+        while (current < arr[preIndex] && preIndex >= 0) {
             arr[preIndex + 1] = arr[preIndex];
             preIndex--;
         }
-        arr[preIndex + 1] = temp;
+        arr[preIndex + 1] = current;
     }
     console.log(arr);
     return arr;
@@ -113,3 +113,43 @@ console.log(quickSort([5, 2, 4, 6, 1, 7]));
 // }
 // let a = [5, 2, 4, 6, 1, 7]
 // quickSort(a, 0, a.length - 1);
+
+/* function quickSort(arr){
+    //递归调用，所以要有出口
+    if(arr.length<2)return arr;
+    let left=[],right=[];
+    let biaoji=arr[0];
+    arr.forEach(e=>{
+        if(e<biaoji)left.push(e);
+        else if(e>biaoji)right.push(e);
+    })
+    return quickSort(left).concat(biaoji,quickSort(rigt));
+}
+console.log(quickSort([5,2,4,6,1,7]));
+
+function quickSort(arr,i,j){
+    if(i<j){
+        let left=i,right=j;
+        let biaoji=arr[left];
+        while(i<j){
+            while(arr[j]>=biaoji&&i<j){
+                j--;
+            }
+            if(i<j){
+                arr[i++]=arr[j];
+            }
+            while(arr[i]<=biaoji &&i<j){
+                i++;
+            }
+            if(i<j){
+                arr[j--]=arr[i];
+            }
+        }
+        arr[i]=biaoji;
+        quickSort(arr,left,i-1);
+        quickSort(arr,i+1,right);
+        return arr;
+    }
+}
+let a = [5, 2, 4, 6, 1, 7]
+quickSort(a, 0, a.length - 1); */
