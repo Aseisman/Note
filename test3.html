@@ -1,21 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>测试</title>
-        <style>
-            html{
-                font-size: 40px;
-            }
-            body{
-                font-size: 100px;
-            }
-        </style>
-    </head>
-    <body style="background: rgb(163, 208, 195);">
-        <div id="audioList">
-            <div>sadasdasdasldaskdajdkal</div>
-        </div>
-    </body>
-
+<head>
+<meta charset="utf-8">
+<title>css实现斑马线背景效果</title>
+ <style type="text/css">
+    /*第一个斜条黑白色*/
+	.test1 {
+	  width: 500px;
+	  height: 80px;
+	  margin: 0 auto;
+	  background: repeating-linear-gradient( 50deg, #000, #000 5px, #fff 5px, #fff 12px );
+	}
+	
+     /*第二个横式水平双条纹*/
+	.test2{
+		width: 500px;
+		height: 80px;
+		margin: 20px auto;
+		background: linear-gradient(#fb5 35%, #58a 35%);
+		background-size: 100% 30px;
+	}
+ 
+	/*第三个垂直条纹 */
+	.test3{	
+		width: 520px;
+		height: 80px;
+		margin: 20px auto;
+		background: linear-gradient(to right, #000 50%, #fff 50%);
+		background-size: 30px 100%;
+	}
+ </style>
+</head>
+<body>
+		
+		<div class="test1"></div>
+ 		<div class="test2"></div>
+        <div class="test3"></div>
+ 
+</body>
+ 
 </html>

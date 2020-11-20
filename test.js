@@ -404,15 +404,27 @@
 
 //0.2+0.3+0.23=0.73
 
-Per.prototype.name = "a";//Per的一个name
-function Per() {
-  //函数变量名会提升
+// Per.prototype.name = "a";//Per的一个name
+// function Per() {
+//   //函数变量名会提升
+// }
+// var p = new Per();
+// Per.prototype.name = "b";//也改了Per的一个name
+// console.log(p.name);//答案是b，因为原型上的被改了。
+// // p.__proto__.name="c";
+// // console.log(p.name);
+// p.name="c";
+// var p2=new Per();
+// console.log(p.name,p2.name);
+
+function quickSort(arr){
+  if(arr.length<=1)return arr;
+  var index=Math.floor(arr.length/2);
+  var left=[],right=[],p=arr.splice(index,1)[0];
+  for(let i=0;i<arr.length;i++){
+       if(arr[i]<=p)left.push(arr[i]);
+       else right.push(arr[i]);
+  }
+  return quickSort(left).concat([p],quickSort(right));
 }
-var p = new Per();
-Per.prototype.name = "b";//也改了Per的一个name
-console.log(p.name);//答案是b，因为原型上的被改了。
-// p.__proto__.name="c";
-// console.log(p.name);
-p.name="c";
-var p2=new Per();
-console.log(p.name,p2.name);
+console.log(quickSort([3,4,2,5,1,6,8,3]));
