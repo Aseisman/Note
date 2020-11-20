@@ -417,14 +417,39 @@
 // var p2=new Per();
 // console.log(p.name,p2.name);
 
-function quickSort(arr){
-  if(arr.length<=1)return arr;
-  var index=Math.floor(arr.length/2);
-  var left=[],right=[],p=arr.splice(index,1)[0];
-  for(let i=0;i<arr.length;i++){
-       if(arr[i]<=p)left.push(arr[i]);
-       else right.push(arr[i]);
+// function quickSort(arr){
+//   if(arr.length<=1)return arr;
+//   var index=Math.floor(arr.length/2);
+//   var left=[],right=[],p=arr.splice(index,1)[0];
+//   for(let i=0;i<arr.length;i++){
+//        if(arr[i]<=p)left.push(arr[i]);
+//        else right.push(arr[i]);
+//   }
+//   return quickSort(left).concat([p],quickSort(right));
+// }
+// console.log(quickSort([3,4,2,5,1,6,8,3]));
+
+function demo(arr,sum){
+  let ans=[];
+  let len=arr.length;
+  arr.sort((a,b)=>a-b);
+  for(let i=0;i<len;i++){
+    if(arr[i]>sum)break;
+    let left=i+1;
+    let right=len-1;
+    while(left<right){
+      let all=arr[i]+arr[left]+arr[right];
+      if(all==sum){
+        ans.push([arr[i],arr[left],arr[right]]);
+        left++;
+        right--;
+      }else if(all<sum)left++;
+      else if(all>sum)right--;
+    }
   }
-  return quickSort(left).concat([p],quickSort(right));
+  return ans;
 }
-console.log(quickSort([3,4,2,5,1,6,8,3]));
+console.log(demo([2,101,20,160,-3,-1,99],100));
+// while(left<right&&nums[left]==nums[left+1])left++;
+// while(left<right&&nums[right]==nums[right-1])right--;
+
