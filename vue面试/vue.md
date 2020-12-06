@@ -153,7 +153,7 @@
 
 5. Vue.mixin的使用场景和原理：  
 答：Vue.mixin的作用就是抽离公共的业务逻辑，原理类似“对象的继承”，当组件初始化时会调用mergeOption的方法进行合并，采用策略模式针对不同的属性进行合并，会采用就近原则的组件数据为准。  
-mixin中有很多缺陷，“明明冲突问题”，“依赖问题”。在vue3.0的时候已经把mixin取消掉了。
+mixin中有很多缺陷，“命名冲突问题”，“依赖问题”。在vue3.0的时候已经把mixin取消掉了。
 ```js
         Vue.options = {
             // beforeCreate() {
@@ -246,7 +246,12 @@ beforeCreate created beforeMount mounted beforeUpdate updated beforeDestory dest
 一般在created实例已经创建完成。因为它是最早触发的。  
 mounted 实例已经挂载，可以进行一些DOM操作。
 
-11. Vue组件间传值的方式及之间的区别？  
+11. Vue组件间传值的方式及之间的区别？
+
+父子传值，
+兄弟传值（provide，inject），
+eventbus传值。
+
 - 传值方式：父传子、子传父、平级同行、跨级同行  
 - 父传子：props.  
 - 子传父：$emit.  
