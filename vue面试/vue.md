@@ -395,6 +395,8 @@ Vue.use=function(参数plugin){
 12、调用beforeRouteEnter守卫传给next的回调函数，创建好的组件实例会作为回调函数的参数传入。
 - 所有的钩子放在数组里面，然后进行顺序调用。
 
+- 鉴权：react-router-config 是一个帮助我们配置静态路由的小助手。其源码就是一个高阶函数 利用一个map函数生成静态路由
+
 18. vue-router的两种模式的区别？
 - hash模式：#，hash+hashchange 兼容性好但是不美观
 - history模式：无#  historyApi+popState 美观，但是如果出现了404需要后端配置

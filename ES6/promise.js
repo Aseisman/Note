@@ -5,12 +5,12 @@
 
 // Promise对象可以理解为一次执行的异步操作，使用promise对象之后可以使用一种链式调用的方式来组织代码；让代码更加的直观。就是当执行完一次异步操作后，会有一次回调，不管成功还是失败，成功就对应成功的回调，失败就对应失败的回调。
 //https://blog.csdn.net/weixin_37719279/article/details/80950713
-//1、 Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的。
+// 1、Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的。
 // 2、promise 有 3 种状态：pending、fulfilled 或 rejected。状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变。
 // 3、构造函数中的 resolve 或 reject 只有第一次执行有效，多次调用没有任何作用，呼应代码二结论：promise 状态一旦改变则不能再变。
 // 4、promise 可以链式调用。提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。promise 每次调用 .then 或者 .catch 都会返回一个新的 promise，从而实现了链式调用。
 // 5、.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。
-//6、.then 可以接收两个参数，第一个是处理成功的函数，第二个是处理错误的函数。.catch 是 .then 第二个参数的简便写法，但是它们用法上有一点需要注意：.then 的第二个处理错误的函数捕获不了第一个处理成功的函数抛出的错误，而后续的 .catch 可以捕获之前（then里面的）的错误。
+// 6、.then 可以接收两个参数，第一个是处理成功的函数，第二个是处理错误的函数。.catch 是 .then 第二个参数的简便写法，但是它们用法上有一点需要注意：.then 的第二个处理错误的函数捕获不了第一个处理成功的函数抛出的错误，而后续的 .catch 可以捕获之前（then里面的）的错误。
 
 //js实现promise
 
